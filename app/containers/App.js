@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import TodoForm from "./TodoForm";
-import Todo from "./Todo";
+import SettingsForm from "./SettingsForm";
+import Setting from "./Setting";
 
 import fetchWP from "../utils/fetchWP";
 
@@ -84,7 +84,8 @@ function App(wpObject) {
 					// 	savedExampleSetting: json.value
 					// })
 					const arr = json.value.map(e => {
-						return { text: e, isCompleted: false }
+						let newVar = { key:e.key, text: e.value, isCompleted: false };
+						return newVar
 					});
 
 					setTodos(arr);
@@ -102,7 +103,7 @@ function App(wpObject) {
 		<div className="app">
 			{<div className="todo-list">
 				{todos.map((todo, index) => (
-					<Todo
+					<Setting
 						key={index}
 						index={index}
 						todo={todo}
@@ -110,7 +111,7 @@ function App(wpObject) {
 						deleteTodo={deleteTodo}
 					/>
 				))}
-				<TodoForm addTodo={addTodo}/>
+				<SettingsForm addTodo={addTodo}/>
 			</div>}
 		</div>
 	);

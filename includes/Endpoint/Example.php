@@ -117,7 +117,12 @@ class Example {
      * @return WP_Error|WP_REST_Request
      */
     public function get_example( $request ) {
-        $example_option = get_option( 'wpr_example_setting' );
+    	$keys = ['wpr_example_setting'];
+		$example_option = [];
+    	foreach ($keys as $i => $key) {
+
+		    array_push( $example_option, array( 'value' => get_option( $key ), 'key' => $key ) );
+	    }
 
         // Don't return false if there is no option
         if ( ! $example_option ) {
@@ -129,7 +134,7 @@ class Example {
 
         return new \WP_REST_Response( array(
             'success' => true,
-            'value' => [$example_option]
+            'value' => $example_option
         ), 200 );
     }
 
