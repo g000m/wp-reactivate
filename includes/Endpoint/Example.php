@@ -129,7 +129,7 @@ class Example {
 
         return new \WP_REST_Response( array(
             'success' => true,
-            'value' => $example_option
+            'value' => [$example_option]
         ), 200 );
     }
 
