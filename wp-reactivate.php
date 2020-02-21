@@ -76,8 +76,8 @@ spl_autoload_register(function ($class) {
  * @since 1.0.0
  */
 function init() {
-	$wpr = Plugin::get_instance();
-	$wpr_shortcode = Shortcode::get_instance();
+//	$wpr = Plugin::get_instance();
+//	$wpr_shortcode = Shortcode::get_instance();
 	$wpr_admin = Admin::get_instance();
 	$wpr_rest = Endpoint\Example::get_instance();
 }
