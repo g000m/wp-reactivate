@@ -21,10 +21,11 @@ function App(wpObject) {
 	});
 
 	const addTodo = text => {
+		const value = text.value;
 		// POST new item here
-		postPost(text);
-		const newTodos = [ ...todos, { text } ];
-
+		postPost(value); // @TODO adapt to support object instead of string
+		const newTodos = [ ...todos,  text  ];
+		console.log(newTodos)
 		setTodos(newTodos);
 	};
 
