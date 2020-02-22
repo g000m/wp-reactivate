@@ -121,7 +121,7 @@ class Example {
 		$example_option = [];
     	foreach ($keys as $i => $key) {
 
-		    array_push( $example_option, array( 'value' => get_option( $key ), 'key' => $key ) );
+		    array_push( $example_option, array( 'key' => $key, 'value' => get_option( $key ) ) );
 	    }
 
         // Don't return false if there is no option
