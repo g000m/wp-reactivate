@@ -145,11 +145,26 @@ class Example {
      * @return WP_Error|WP_REST_Request
      */
     public function update_example( $request ) {
-        $updated = update_option( 'wpr_example_setting', $request->get_param( 'exampleSetting' ) );
 
+	    // @TODO sanitize input!!
+	    $array_of_settings             = $request->get_param( 'exampleSetting' );
+	    //	    $array_of_settings             = \WP_REST_Request::sanitize_params($request->get_param( 'exampleSetting' ));
+
+	    $wpr_settings_keys = array_map(function($item) {
+		    $res = update_option( $item['key'], $item['value'] );
+
+		    return $item['key'];
+	    }, $array_of_settings);
+
+
+
+	    $updated = update_option( 'wpr_example_setting', serialize($wpr_settings_keys) );
+
+	    // 1 return a proper response
+	    // - the object that we just saved should be sent back and replace the current object. but not the index!
         return new \WP_REST_Response( array(
             'success'   => $updated,
-            'value'     => $request->get_param( 'exampleSetting' )
+            'value'     => $array_of_settings
         ), 200 );
     }
 

@@ -21,13 +21,13 @@ function App(wpObject) {
 	});
 
 	const addTodo = text => {
-
 		text.isCompleted = false;
-		// POST new item here
-		postPost(text); // @TODO adapt to support object instead of string
 		const newTodos = [ ...todos,  text  ];
-		// console.log("newTodos", newTodos);
+
+		console.log("newTodos", newTodos);
+
 		setTodos(newTodos);
+		updateSetting(newTodos);
 	};
 
 	const postPost = async (text) => {
@@ -52,6 +52,15 @@ function App(wpObject) {
 		});
 	};
 
+	const updateSetting = (todos) => {
+		console.log('updateSettings', todos);
+		fetch_wp.post( 'example', { exampleSetting: todos } )
+			.then(
+				(json) => this.processOkResponse(json, 'saved'),
+				(err) => console.log('error', err)
+			);
+	};
+
 	const completeTodo = index => {
 		const newTodos = [ ...todos ];
 
@@ -65,26 +74,9 @@ function App(wpObject) {
 		setTodos(newTodos);
 	};
 
-	/*const fetchStuff = async () => {
-		await fetch(`https://pagediff.lan/wp-json/wp/v2/posts`)
-			.then(response => response.json())
-			.then(myJSON => {  // Logic goes here
-				const arr = myJSON.map(e => {
-					return { text: e.title.rendered, isCompleted: false }
-				});
-
-				setTodos(arr);
-			});
-	}*/
-
 	const getSetting = () => {
 		fetch_wp.get('example')
 			.then(json => {
-					console.log(json.value);
-					// setExample({
-					// 	exampleSetting: json.value,
-					// 	savedExampleSetting: json.value
-					// })
 					const arr = json.value.map(e => {
 						let newVar = { key:e.key, value: e.value, isCompleted: false };
 						return newVar
@@ -97,7 +89,6 @@ function App(wpObject) {
 	};
 
 	useEffect(() => {
-		// fetchStuff();
 		getSetting();
 	}, []);
 
