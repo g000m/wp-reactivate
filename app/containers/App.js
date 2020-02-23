@@ -23,8 +23,19 @@ function App(wpObject) {
 		// updateSetting(newTodos);
 	};
 
+	const updateField = (key, value) => {
+
+		const updated = todos.map((item)=>{
+			item.value = (item.key === key) ? value : item.value;
+			return item;
+		}, {...key, ...value});
+
+		setTodos(updated);
+	};
+
 	// save to WP
-	const updateSetting = (todos) => {
+	const updateSetting = () => {
+		console.log('updateSetting', todos);
 		fetch_wp.post('example', { exampleSetting: todos })
 			.then(
 				(json) => processOkResponse(json, 'saved'),
@@ -67,6 +78,7 @@ function App(wpObject) {
 				},
 				(err) => console.log('error', err)
 			);
+
 	};
 
 	useEffect(() => {
@@ -83,9 +95,10 @@ function App(wpObject) {
 						todo={todo}
 						completeTodo={completeTodo}
 						deleteTodo={deleteTodo}
+						updateField={updateField}
 					/>
 				))}
-				<SettingsForm addField={addField}/>
+				<SettingsForm addField={addField} updateSetting={updateSetting}/>
 			</div>}
 		</div>
 	);

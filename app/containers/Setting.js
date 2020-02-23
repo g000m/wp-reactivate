@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 
-function Setting({ todo, index, completeTodo, deleteTodo}) {
-	const [ value, setValue ] = useState(todo.value);
+function Setting({ todo, index, completeTodo, deleteTodo, updateField}) {
 
 	return (
 		<div className="todo">
@@ -13,8 +12,8 @@ function Setting({ todo, index, completeTodo, deleteTodo}) {
 					type="text"
 					name={todo.key+'-value'}
 					className="input2 input-value"
-					value={value}
-					onChange={e => setValue(e.target.value)}
+					value={todo.value}
+					onChange={e => updateField(todo.key, e.target.value)}
 					placeholder="value"
 				/>
 
