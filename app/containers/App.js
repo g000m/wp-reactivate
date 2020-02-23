@@ -22,10 +22,12 @@ function App(wpObject) {
 
 	const addTodo = text => {
 		const value = text.value;
+
+		text.isCompleted = false;
 		// POST new item here
-		postPost(value); // @TODO adapt to support object instead of string
+		postPost(text); // @TODO adapt to support object instead of string
 		const newTodos = [ ...todos,  text  ];
-		console.log(newTodos)
+		// console.log("newTodos", newTodos);
 		setTodos(newTodos);
 	};
 
@@ -39,8 +41,8 @@ function App(wpObject) {
 					'X-WP-Nonce': nonce,
 				},
 				body: JSON.stringify({
-					title: text,
-					content: 'teabate',
+					title: text.key,
+					content: text.text,
 					status: 'publish'
 				})
 			}
