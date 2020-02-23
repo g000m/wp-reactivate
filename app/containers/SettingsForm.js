@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 function SettingsForm({ addTodo }) {
 	const [ key, setKey ] = useState("");
 	const [ value, setValue ] = useState("");
-	// console.log(value, setValue);
 
 	const handleSubmit = e => {
 		e.preventDefault();

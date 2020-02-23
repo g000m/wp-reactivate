@@ -11,7 +11,7 @@ function Setting({ todo, index, completeTodo, deleteTodo}) {
 
 			</div>
 				<div>
-					<button onClick={() => completeTodo(index)}>Complete</button>
+					{/*<button onClick={() => completeTodo(index)}>Complete</button>*/}
 					<button onClick={() => deleteTodo(index)}>X</button>
 				</div>
 		</div>
