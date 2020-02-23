@@ -149,12 +149,19 @@ class Example {
 	    // @TODO sanitize input!!
 	    $array_of_settings             = $request->get_param( 'exampleSetting' );
 	    //	    $array_of_settings             = \WP_REST_Request::sanitize_params($request->get_param( 'exampleSetting' ));
+	    $wpr_settings_keys = [];
 
-	    $wpr_settings_keys = array_map(function($item) {
-		    $res = update_option( $item['key'], $item['value'] );
+		foreach ($array_of_settings as $idx => $item) {
 
-		    return $item['key'];
-	    }, $array_of_settings);
+	    	// new field in form = "", so don't clobber existing options
+		    if ( $item['value'] !== "" ) {
+			    update_option( $item['key'], $item['value'] );
+		    } else {
+			    $array_of_settings[ $idx ]['value'] = get_option( $item['key'] );
+		    }
+			$wpr_settings_keys[$idx] = $item['key'];
+
+		}
 
 
 

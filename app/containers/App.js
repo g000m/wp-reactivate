@@ -35,10 +35,10 @@ function App(wpObject) {
 
 	// save to WP
 	const updateSetting = () => {
-		console.log('updateSetting', todos);
+
 		fetch_wp.post('example', { exampleSetting: todos })
 			.then(
-				(json) => processOkResponse(json, 'saved'),
+				(json) => {processOkResponse(json, 'saved');setTodos(json.value)},
 				(err) => console.log('error', err)
 			);
 	};
@@ -46,7 +46,7 @@ function App(wpObject) {
 	const processOkResponse = (json, action) => {
 		if (json.success) {
 			// @TODO show indication on page
-			console.log('saved successfully');
+			console.log(`Setting was ${action}`);
 		} else {
 			console.log(`Setting was not ${action}.`, json);
 		}
