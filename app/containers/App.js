@@ -21,7 +21,6 @@ function App(wpObject) {
 	});
 
 	const addTodo = text => {
-		const value = text.value;
 
 		text.isCompleted = false;
 		// POST new item here
@@ -42,7 +41,7 @@ function App(wpObject) {
 				},
 				body: JSON.stringify({
 					title: text.key,
-					content: text.text,
+					content: text.value,
 					status: 'publish'
 				})
 			}
@@ -66,7 +65,7 @@ function App(wpObject) {
 		setTodos(newTodos);
 	};
 
-	const fetchStuff = async () => {
+	/*const fetchStuff = async () => {
 		await fetch(`https://pagediff.lan/wp-json/wp/v2/posts`)
 			.then(response => response.json())
 			.then(myJSON => {  // Logic goes here
@@ -76,7 +75,7 @@ function App(wpObject) {
 
 				setTodos(arr);
 			});
-	}
+	}*/
 
 	const getSetting = () => {
 		fetch_wp.get('example')
@@ -87,7 +86,7 @@ function App(wpObject) {
 					// 	savedExampleSetting: json.value
 					// })
 					const arr = json.value.map(e => {
-						let newVar = { key:e.key, text: e.value, isCompleted: false };
+						let newVar = { key:e.key, value: e.value, isCompleted: false };
 						return newVar
 					});
 

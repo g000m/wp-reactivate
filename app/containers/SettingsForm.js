@@ -9,7 +9,7 @@ function SettingsForm({ addTodo }) {
 		e.preventDefault();
 
 		if (!value || !key) return;
-		addTodo({key:key, text:value});
+		addTodo({key:key, value:value});
 		setKey("");
 		setValue("");
 	};

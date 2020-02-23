@@ -7,7 +7,7 @@ function Setting({ todo, index, completeTodo, deleteTodo}) {
 			<div
 				style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
 			>
-				{todo.text}
+				{todo.value}
 
 			</div>
 				<div>
