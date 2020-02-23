@@ -117,7 +117,7 @@ class Example {
      * @return WP_Error|WP_REST_Request
      */
     public function get_example( $request ) {
-    	$keys = ['wpr_example_setting'];
+    	$keys = unserialize(get_option('wpr_example_setting'));
 		$example_option = [];
     	foreach ($keys as $i => $key) {
 

@@ -56,9 +56,18 @@ function App(wpObject) {
 		console.log('updateSettings', todos);
 		fetch_wp.post( 'example', { exampleSetting: todos } )
 			.then(
-				(json) => this.processOkResponse(json, 'saved'),
+				(json) => processOkResponse(json, 'saved'),
 				(err) => console.log('error', err)
 			);
+	};
+
+	const processOkResponse = (json, action) => {
+		if (json.success) {
+			// @TODO show indication on page
+			console.log('saved successfully');
+		} else {
+			console.log(`Setting was not ${action}.`, json);
+		}
 	};
 
 	const completeTodo = index => {
