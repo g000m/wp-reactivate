@@ -20,10 +20,10 @@ function App(wpObject) {
 		const newTodos = [ ...todos, text ];
 
 		setTodos(newTodos);
-		updateSetting(newTodos);
+		// updateSetting(newTodos);
 	};
 
-
+	// save to WP
 	const updateSetting = (todos) => {
 		fetch_wp.post('example', { exampleSetting: todos })
 			.then(
