@@ -7,11 +7,11 @@ function Setting({ todo, index, completeTodo, deleteTodo}) {
 			<div
 				style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
 			>
-				{todo.text}
+				{todo.value}
 
 			</div>
 				<div>
-					<button onClick={() => completeTodo(index)}>Complete</button>
+					{/*<button onClick={() => completeTodo(index)}>Complete</button>*/}
 					<button onClick={() => deleteTodo(index)}>X</button>
 				</div>
 		</div>
