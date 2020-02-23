@@ -1,13 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 
 function Setting({ todo, index, completeTodo, deleteTodo}) {
+	const [ value, setValue ] = useState(todo.value);
+
 	return (
 		<div className="todo">
-			<div className="setting_key">{todo.key}</div>
+			<label htmlFor={todo.key+'-value'} className="setting_key">{todo.key}</label>
 			<div
 				style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
 			>
-				{todo.value}
+				<input
+					type="text"
+					name={todo.key+'-value'}
+					className="input2 input-value"
+					value={value}
+					onChange={e => setValue(e.target.value)}
+					placeholder="value"
+				/>
 
 			</div>
 				<div>

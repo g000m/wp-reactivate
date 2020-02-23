@@ -15,7 +15,7 @@ function App(wpObject) {
 		restNonce: wpObject.wpObject.api_nonce,
 	});
 
-	const addTodo = text => {
+	const addField = text => {
 		text.isCompleted = false;
 		const newTodos = [ ...todos, text ];
 
@@ -85,7 +85,7 @@ function App(wpObject) {
 						deleteTodo={deleteTodo}
 					/>
 				))}
-				<SettingsForm addTodo={addTodo}/>
+				<SettingsForm addField={addField}/>
 			</div>}
 		</div>
 	);
