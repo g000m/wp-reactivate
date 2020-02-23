@@ -152,12 +152,14 @@ class Example {
 	    $wpr_settings_keys = [];
 
 		foreach ($array_of_settings as $idx => $item) {
+			// @TODO BUG: need to allow field to be set to ""
 
 	    	// new field in form = "", so don't clobber existing options
 		    if ( $item['value'] !== "" ) {
 			    update_option( $item['key'], $item['value'] );
 		    } else {
-			    $array_of_settings[ $idx ]['value'] = get_option( $item['key'] );
+			    $get_option                         = get_option( $item['key'] );
+			    $array_of_settings[ $idx ]['value'] = ($get_option) ? $get_option : "";
 		    }
 			$wpr_settings_keys[$idx] = $item['key'];
 

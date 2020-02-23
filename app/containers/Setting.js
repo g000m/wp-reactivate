@@ -14,7 +14,7 @@ function Setting({ todo, index, completeTodo, deleteTodo, updateField}) {
 					className="input2 input-value"
 					value={todo.value}
 					onChange={e => updateField(todo.key, e.target.value)}
-					placeholder="value"
+					// placeholder="value"
 				/>
 
 			</div>
