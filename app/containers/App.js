@@ -70,8 +70,7 @@ function App(wpObject) {
 		fetch_wp.get('example')
 			.then(json => {
 					const arr = json.value.map(e => {
-						let newVar = { key: e.key, value: e.value, isCompleted: false };
-						return newVar
+						return { ...e, isCompleted: false };
 					});
 
 					setTodos(arr);

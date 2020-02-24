@@ -120,8 +120,14 @@ class Example {
     	$keys = unserialize(get_option('wpr_example_setting'));
 		$example_option = [];
     	foreach ($keys as $i => $key) {
+		    $option = get_option( $key );
 
-		    array_push( $example_option, array( 'key' => $key, 'value' => get_option( $key ) ) );
+		    if ( !empty($option) ) {
+			    $vars = array( 'key' => $key, 'value' => $option );
+		    } else {
+			    $vars = array( 'key' => $key, 'value' => '', 'placeholder' => '< empty >' ); //@TODO DRY
+		    }
+		    array_push( $example_option, $vars );
 	    }
 
         // Don't return false if there is no option
@@ -155,11 +161,18 @@ class Example {
 			// @TODO BUG: need to allow field to be set to ""
 
 	    	// new field in form = "", so don't clobber existing options
-		    if ( $item['value'] !== "" ) {
+		    if ( ! empty($item['value']) ) {
 			    update_option( $item['key'], $item['value'] );
-		    } else {
+		    } else { // submitted a blank field,
+
+		    	// what to do when false?
 			    $get_option                         = get_option( $item['key'] );
-			    $array_of_settings[ $idx ]['value'] = ($get_option) ? $get_option : "";
+			    if ( ( $get_option ) ) {
+				    $array_of_settings[ $idx ]['value'] = $get_option;
+			    } else {
+				    $array_of_settings[ $idx ]['value'] = "";
+				    $array_of_settings[ $idx ]['placeholder'] = "< empty >"; //@TODO DRY
+			    }
 		    }
 			$wpr_settings_keys[$idx] = $item['key'];
 
