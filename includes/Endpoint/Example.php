@@ -159,7 +159,10 @@ class Example {
 
 		foreach ($array_of_settings as $idx => $item) {
 			// @TODO BUG: need to allow field to be set to ""
-
+			if ($item['isCompleted']) {
+				array_splice($array_of_settings, $idx, 1);
+				continue;
+			}
 	    	// new field in form = "", so don't clobber existing options
 		    if ( ! empty($item['value']) ) {
 			    update_option( $item['key'], $item['value'] );
