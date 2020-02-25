@@ -5,17 +5,22 @@ function Setting({ todo, index, completeTodo, deleteTodo, updateField }) {
 	return (
 		<div className="todo">
 			<div
-				style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+				style={{ textDecoration: todo.isCompleted ? "line-through" : "", width: "100%", display: "flex", alignItems: "center" }}
 			>
 				<label htmlFor={todo.key + '-value'} className="setting_key">{todo.key}</label>
-				<input
-					type="text"
-					name={todo.key + '-value'}
-					className="input2 input-value"
-					value={todo.value}
-					onChange={e => updateField(todo.key, e.target.value)}
-					placeholder={todo.placeholder ? todo.placeholder : ""}
-				/>
+				{todo.isCompleted ? (
+					<span id={todo.key + '-value'} className="input-value">{todo.value}</span>
+				) : (
+					<input
+						type="text"
+						id={todo.key + '-value'}
+						className="input2 input-value"
+						value={todo.value}
+						onChange={e => updateField(todo.key, e.target.value)}
+						placeholder={todo.placeholder ? todo.placeholder : ""}
+					/>
+				)
+				}
 
 			</div>
 			<div>

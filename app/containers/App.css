@@ -24,3 +24,11 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.setting_key {
+  width:100%;
+}
+
+.setting_key + span, .setting_key + input {
+  vertical-align:middle;
+}
