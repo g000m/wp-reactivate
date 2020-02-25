@@ -20,7 +20,7 @@ function App(wpObject) {
 		const newTodos = [ ...todos, text ];
 
 		setTodos(newTodos);
-		// updateSetting(newTodos);
+		updateSetting(newTodos);
 	};
 
 	const updateField = (key, value) => {
@@ -34,11 +34,13 @@ function App(wpObject) {
 	};
 
 	// save to WP
-	const updateSetting = () => {
-
-		fetch_wp.post('example', { exampleSetting: todos })
+	const updateSetting = (newTodos) => {
+		fetch_wp.post('example', { exampleSetting: newTodos }) //@TODO who doesn't todos work here?
 			.then(
-				(json) => {processOkResponse(json, 'saved');setTodos(json.value)},
+				(json) => {
+					setTodos(json.value)
+					processOkResponse(json, 'saved');
+				},
 				(err) => console.log('error', err)
 			);
 	};
