@@ -41,7 +41,7 @@ export default class fetchWP {
       return fetch(this.options.restURL + endpoint, fetchObject)
       .then(response => {
         return response.json().then(json => {
-          return response.ok ? json : Promise.reject(json);
+          return json.success ? json : Promise.reject(json);
         });
       });
     }

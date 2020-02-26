@@ -67,23 +67,80 @@ function App(wpObject) {
 		setTodos(newTodos);
 	};
 
+	function load_Settings(json) {
+		const arr = json.value.map(e => {
+			return { ...e, isCompleted: false };
+		});
+
+		return arr;
+	}
+
 	const getSetting = () => {
-		// @TODO change endpoint
-		fetch_wp.get('example')
-			.then(json => {
-					const arr = json.value.map(e => {
-						return { ...e, isCompleted: false };
-					});
+		// @TODO change endpoint name from 'example'
 
-					setTodos(arr);
-				},
-				(err) => console.log('error', err)
-			);
-
+		return fetch_wp.get('example');
 	};
 
+	const service = {
+		getData() {
+			return Promise.resolve('{"answer":42}');
+		}
+	}
+
+	const machine = {
+		dispatch(actionName, ...payload) {
+			const actions = this.transitions[ this.state ];
+			const action = this.transitions[ this.state ][ actionName ];
+
+			if (action) {
+				console.log(`action dispatched: ${actionName}`);
+				action.apply(machine, payload);
+			}
+		},
+		changeStateTo(newState) {
+			console.log(`state changed: ${newState}`);
+			machine.state = newState;
+		},
+		state: 'idle',
+		transitions: {
+			'idle': {
+				load: function () {
+					machine.changeStateTo('fetching');
+					getSetting().then(
+						data => {
+							try {
+								machine.dispatch('success', data);
+							} catch (error) {
+								machine.dispatch('failure', error)
+							}
+						},
+						error => machine.dispatch('failure', error)
+					);
+				}
+			},
+			'fetching': {
+				success: function (data) {
+					setTodos(load_Settings(data))
+					console.log(`<strong>And the answer is ${data.answer}</strong>`);
+					machine.changeStateTo('idle');
+				},
+				failure: function (error) {
+					machine.changeStateTo('error');
+				}
+			},
+			'error': {
+				retry: function () {
+					machine.changeStateTo('idle');
+					machine.dispatch('click');
+				}
+			}
+		}
+	}
+
 	useEffect(() => {
-		getSetting();
+		// getSetting();
+		console.log(`initial state: ${ machine.state }`);
+		machine.dispatch('load');
 	}, []);
 
 	return (
