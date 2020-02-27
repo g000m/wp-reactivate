@@ -20,11 +20,11 @@ function App(wpObject) {
 		const newTodos = [ ...todos, text ];
 
 		setTodos(newTodos);
-		updateSetting(newTodos); // get all fields, including value for newly added
+		updateApi(newTodos); // get all fields, including value for newly added
 	};
 
 	const handleSave = () => {
-		updateSetting(todos);
+		machine.dispatch('save');
 	};
 
 	const updateField = (key, value) => {
@@ -37,17 +37,6 @@ function App(wpObject) {
 		setTodos(updated);
 	};
 
-	// save to WP
-	const updateSetting = (newTodos) => {
-		fetch_wp.post('example', { exampleSetting: newTodos }) //@TODO who doesn't todos work here?
-			.then(
-				(json) => {
-					setTodos(json.value)
-					processOkResponse(json, 'saved');
-				},
-				(err) => console.log('error', err)
-			);
-	};
 
 	const processOkResponse = (json, action) => {
 		if (json.success) {
@@ -79,17 +68,24 @@ function App(wpObject) {
 		return arr;
 	}
 
-	const getSetting = () => {
+	// CRUD update
+	const updateApi = (newTodos) => {
+		return fetch_wp.post('example', { exampleSetting: newTodos }) //@TODO who doesn't todos work here?
+			/*.then(
+				(json) => {
+					setTodos(json.value)
+					processOkResponse(json, 'saved');
+				},
+				(err) => console.log('error', err)
+			);*/
+	};
+
+	// CRUD read
+	const readApi = () => {
 		// @TODO change endpoint name from 'example'
 
 		return fetch_wp.get('example');
 	};
-
-	const service = {
-		getData() {
-			return Promise.resolve('{"answer":42}');
-		}
-	}
 
 	const machine = {
 		dispatch(actionName, ...payload) {
@@ -110,7 +106,7 @@ function App(wpObject) {
 			'idle': {
 				load: function () {
 					machine.changeStateTo('fetching');
-					getSetting().then(
+					readApi().then(
 						data => {
 							try {
 								machine.dispatch('success', data);
@@ -120,12 +116,27 @@ function App(wpObject) {
 						},
 						error => machine.dispatch('failure', error)
 					);
-				}
+				},
+				save : function () {
+					machine.changeStateTo('fetching');
+
+					updateApi(todos).then(
+						data => {
+							try {
+								machine.dispatch('success', data);
+							} catch (error) {
+								machine.dispatch('failure', error);
+							}
+						},
+						error => machine.dispatch('failure', error)
+					);
+
+				},
+
 			},
 			'fetching': {
 				success: function (data) {
 					setTodos(load_Settings(data))
-					console.log(`<strong>And the answer is ${data.answer}</strong>`);
 					machine.changeStateTo('idle');
 				},
 				failure: function (error) {
@@ -143,7 +154,6 @@ function App(wpObject) {
 
 	useEffect(() => {
 		// getSetting();
-		console.log(`initial state: ${ machine.state }`);
 		machine.dispatch('load');
 	}, []);
 
