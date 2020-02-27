@@ -20,7 +20,11 @@ function App(wpObject) {
 		const newTodos = [ ...todos, text ];
 
 		setTodos(newTodos);
-		updateSetting(newTodos);
+		updateSetting(newTodos); // get all fields, including value for newly added
+	};
+
+	const handleSave = () => {
+		updateSetting(todos);
 	};
 
 	const updateField = (key, value) => {
@@ -156,7 +160,7 @@ function App(wpObject) {
 						updateField={updateField}
 					/>
 				))}
-				<SettingsForm addField={addField} updateSetting={updateSetting}/>
+				<SettingsForm addField={addField} updateSetting={handleSave}/>
 			</div>}
 		</div>
 	);
