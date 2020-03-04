@@ -8,7 +8,7 @@ import fetchWP from "../utils/fetchWP";
 
 function App(wpObject) {
 
-	const [ todos, setTodos ] = useState([]);
+	const [ todos, setTodos ] = useState([]); //@TODO can pass in a function to retrieve initial state
 	let fetch_wp;
 	fetch_wp = new fetchWP({
 		restURL: wpObject.wpObject.api_url,
@@ -20,7 +20,9 @@ function App(wpObject) {
 		const newTodos = [ ...todos, text ];
 
 		setTodos(newTodos);
-		updateApi(newTodos); // get all fields, including value for newly added
+		// updateApi(newTodos); // get all fields, including value for newly added
+		// @TODO broken; state queue isn't processed already
+		machine.dispatch('save');
 	};
 
 	const handleSave = () => {
@@ -71,13 +73,6 @@ function App(wpObject) {
 	// CRUD update
 	const updateApi = (newTodos) => {
 		return fetch_wp.post('example', { exampleSetting: newTodos }) //@TODO who doesn't todos work here?
-			/*.then(
-				(json) => {
-					setTodos(json.value)
-					processOkResponse(json, 'saved');
-				},
-				(err) => console.log('error', err)
-			);*/
 	};
 
 	// CRUD read
